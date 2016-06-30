@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "CustomLoginView.h"
 
 @interface ViewController ()
 
@@ -16,12 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // 添加登录页面
+    CGFloat loginH = 150;
+    CGFloat loginY = self.view.frame.size.height - loginH;
+    CustomLoginView *login = [[CustomLoginView alloc] initWithFrame:CGRectMake(0, loginY, self.view.frame.size.width, loginH)];
+    login.vc = self;
+    [self.view addSubview:login];
+    
+    // 获取三方数据
+    login.customLoginBlock = ^(UMSocialAccountEntity *snsAccount){
+        NSLog(@"\nusername = %@,\n usid = %@,\n token = %@ iconUrl = %@,\n unionId = %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL, snsAccount.unionId);
+    };
 }
 
 @end
